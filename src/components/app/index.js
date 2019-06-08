@@ -1,20 +1,26 @@
 import React from 'react';
 import { Global } from '@emotion/core';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import logo from '../../images/logo.svg';
-import resetStyles from '../../utils/globalStyles';
+import resetStyles from 'utils/globalStyles';
+import { StateProvider } from 'utils/state';
+import { initialState, reducer } from 'utils/reducer';
+import Header from 'components/header';
+import Home from 'components/home';
+import Category from 'components/category';
 
-import { AppLogo } from './styles';
-
-function App() {
+const App = () => {
   return (
-    <div>
-      <Global styles={resetStyles} />
-      <header>
-        <AppLogo src={logo} alt="logo" />
-      </header>
-    </div>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <Router>
+        <Global styles={resetStyles} />
+        <Header />
+
+        <Route exact path="/" component={Home} />
+        <Route path="/category" component={Category} />
+      </Router>
+    </StateProvider>
   );
-}
+};
 
 export default App;

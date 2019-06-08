@@ -15,3 +15,7 @@ export const AppLogo = styled.img`
   height: 40vmin;
   pointer-events: none;
 `;
+
+export const MainBox = styled.div`
+  margin-top: 32px;
+`;
