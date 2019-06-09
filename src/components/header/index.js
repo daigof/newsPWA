@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,7 +10,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useStateValue } from 'utils/state';
 import { CATEGORIES } from 'utils/constants';
-import { CategoryItem } from './styles';
+import { CategoryItem, Disclaimer } from './styles';
 
 const Header = ({ history }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -49,6 +50,11 @@ const Header = ({ history }) => {
           >
             Categories
           </Button>
+          <Disclaimer>
+            <Typography variant="caption" display="block">
+              Powered by newsapi.org
+            </Typography>
+          </Disclaimer>
         </Toolbar>
       </AppBar>
 
