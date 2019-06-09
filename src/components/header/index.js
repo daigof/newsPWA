@@ -13,7 +13,7 @@ import { CategoryItem } from './styles';
 
 const Header = ({ history }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [state, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const handleMenuClick = event => {
     setAnchorEl(event.currentTarget);
@@ -72,4 +72,5 @@ const Header = ({ history }) => {
   );
 };
 
+// Since it is not a Component of <Route/> I use withRouter to expose {history} prop
 export default withRouter(Header);

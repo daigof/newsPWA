@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Moment from 'react-moment';
+import { useInView } from 'react-intersection-observer';
 
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from '@material-ui/core/Link';
-import { CardStyled, ExpandIconButton, ExpandIconButtonBox } from './styles';
+import {
+  CardStyled,
+  ExpandIconButton,
+  ExpandIconButtonBox,
+  NewsImage,
+  NewsImageContainer,
+} from './styles';
+import placeholder from './placeholder.png';
 
 const NewsCard = ({ newsData }) => {
   const [expanded, setExpanded] = React.useState(false);
@@ -20,6 +27,23 @@ const NewsCard = ({ newsData }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  // Libraries are migrating/encouraging Hooks by default. Yayyyyy!!!
+  const [ref, inView, intersectionEntry] = useInView({
+    triggerOnce: true,
+    // Intentionally LARGE margin to see the placeholder before loading
+    rootMargin: '-150px',
+  });
+
+  useEffect(() => {
+    const loadImage = () => {
+      const image = intersectionEntry.target;
+      image.setAttribute('src', image.getAttribute('data-src'));
+      image.removeAttribute('data-src');
+    };
+    // inView && console.log(newsData.title);
+    inView && loadImage();
+  }, [inView, intersectionEntry]);
 
   return (
     <CardStyled>
@@ -31,12 +55,16 @@ const NewsCard = ({ newsData }) => {
           </Typography>
         }
       />
+
       {newsData.urlToImage && (
-        <CardMedia
-          component="img"
-          src={newsData.urlToImage}
-          title={newsData.title}
-        />
+        <NewsImageContainer filter={inView ? 'filter' : ''}>
+          <NewsImage
+            ref={ref}
+            src={placeholder}
+            data-src={newsData.urlToImage}
+            alt={newsData.title}
+          />
+        </NewsImageContainer>
       )}
 
       <CardContent>

@@ -13,7 +13,10 @@ const App = () => {
   return (
     <StateProvider initialState={initialState} reducer={reducer}>
       <Router>
+        {/* Reset/Normalize Styles */}
         <Global styles={resetStyles} />
+
+        {/* Present in Every Page */}
         <Header />
 
         <Route exact path="/" component={Home} />

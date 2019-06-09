@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { LoadingBox } from './styles';

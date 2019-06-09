@@ -1,28 +1,7 @@
+import { css } from '@emotion/core';
 import styled from '@emotion/styled/macro';
 import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
-// const useStyles = makeStyles(theme => ({
-//   card: {
-//     maxWidth: 345,
-//   },
-//   media: {
-//     height: 0,
-//     paddingTop: '56.25%', // 16:9
-//   },
-//   expand: {
-//     transform: 'rotate(0deg)',
-//     marginLeft: 'auto',
-//     transition: theme.transitions.create('transform', {
-//       duration: theme.transitions.duration.shortest,
-//     }),
-//   },
-//   expandOpen: {
-//     transform: 'rotate(180deg)',
-//   },
-//   avatar: {
-//     backgroundColor: red[500],
-//   },
-// }));
 
 export const CardStyled = styled(Card)`
   max-width: 345px;
@@ -38,4 +17,23 @@ export const ExpandIconButtonBox = styled.div`
   ${ExpandIconButton} {
     transform: ${({ expan }) => (expan ? 'rotate(180deg)' : 'rotate(0deg)')};
   }
+`;
+
+export const NewsImage = styled.img`
+  width: 100%;
+  height: auto;
+  filter: blur(0.2em);
+  transition: filter 0.5s;
+`;
+
+export const NewsImageContainer = styled.div`
+  width: 100%;
+  height: auto;
+  ${({ filter }) =>
+    filter &&
+    css`
+      ${NewsImage} {
+        filter: blur(0em);
+      }
+    `};
 `;
