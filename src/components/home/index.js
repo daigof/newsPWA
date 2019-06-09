@@ -1,12 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
-// import logo from 'images/logo.svg';
-// import { useStateValue } from 'utils/state';
-
+import LoadingSpinner from 'components/loadingSpinner';
+import NewsCard from 'components/newsCard';
 import { MainBox } from './styles';
 import { ENDPOINT } from 'utils/constants';
 
@@ -22,7 +21,6 @@ const Home = () => {
 
       try {
         const result = await axios(ENDPOINT);
-        console.log(result);
         setHeadlines(result.data.articles);
       } catch (error) {
         setIsError(true);
@@ -49,13 +47,15 @@ const Home = () => {
         {isError && <div>Something went wrong ...</div>}
 
         {isLoading ? (
-          <CircularProgress />
+          <LoadingSpinner />
         ) : (
-          <ul>
+          <Grid container justify="center" spacing={2}>
             {headlines.map(headline => (
-              <li key={headline.title}>{headline.title}</li>
+              <Grid key={headline.title} item>
+                <NewsCard newsData={headline} />
+              </Grid>
             ))}
-          </ul>
+          </Grid>
         )}
       </MainBox>
     </Container>

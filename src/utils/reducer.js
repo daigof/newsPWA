@@ -8,7 +8,7 @@ const reducer = (state, action) => {
     case 'changeCategory':
       return {
         ...state,
-        category: action.category,
+        selectedCategory: action.category,
       };
 
     default:

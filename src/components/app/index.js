@@ -17,7 +17,7 @@ const App = () => {
         <Header />
 
         <Route exact path="/" component={Home} />
-        <Route path="/category" component={Category} />
+        <Route path="/category/:category" component={Category} />
       </Router>
     </StateProvider>
   );

@@ -17,5 +17,11 @@ export const AppLogo = styled.img`
 `;
 
 export const MainBox = styled.div`
-  margin-top: 32px;
+  padding-top: 96px;
+  padding-bottom: 54px;
+`;
+
+export const LoadingBox = styled.div`
+  text-align: center;
+  margin: 64px auto 0;
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,24 +7,34 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { useStateValue } from 'utils/state';
 import { CATEGORIES } from 'utils/constants';
 import { CategoryItem } from './styles';
 
-const Header = () => {
+const Header = ({ history }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [state, dispatch] = useStateValue();
 
-  const handleClick = event => {
+  const handleMenuClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCategorySelect = category => {
+    handleMenuClose();
+    dispatch({
+      type: 'changeCategory',
+      category,
+    });
+    history.push(`/category/${category}`);
   };
 
   return (
     <Container maxWidth="lg">
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Button color="inherit">
             <Link component={RouterLink} to="/" color="inherit">
@@ -34,7 +44,7 @@ const Header = () => {
           <Button
             aria-controls="category-menu"
             aria-haspopup="true"
-            onClick={handleClick}
+            onClick={handleMenuClick}
             color="inherit"
           >
             Categories
@@ -47,10 +57,13 @@ const Header = () => {
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleMenuClose}
       >
         {CATEGORIES.map(category => (
-          <MenuItem onClick={handleClose} key={category}>
+          <MenuItem
+            onClick={() => handleCategorySelect(category)}
+            key={category}
+          >
             <CategoryItem>{category}</CategoryItem>
           </MenuItem>
         ))}
@@ -59,4 +72,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
