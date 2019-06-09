@@ -1,6 +1,5 @@
 const initialState = {
   selectedCategory: '',
-  newsTopHeadlines: [],
 };
 
 const reducer = (state, action) => {
