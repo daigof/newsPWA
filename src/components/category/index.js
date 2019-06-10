@@ -21,11 +21,23 @@ const Category = ({ match }) => {
     const fetchCategoryNews = async () => {
       setIsError(false);
       setIsLoading(true);
+      const CATEGORY_ENDPOINT = `${ENDPOINT}&category=${category}`;
 
       try {
-        // magic of async/await
-        const result = await axios(`${ENDPOINT}&category=${category}`);
-        setCategoryNews(result.data.articles);
+        const cache = await caches.open(`news-${category}`);
+        const cachedResponse = await cache.match(CATEGORY_ENDPOINT);
+        let result;
+        if (cachedResponse) {
+          result = await cachedResponse.json();
+        } else {
+          const axiosResult = await axios(CATEGORY_ENDPOINT);
+          result = axiosResult.data;
+          cache.put(
+            CATEGORY_ENDPOINT,
+            new Response(axiosResult.request.response)
+          );
+        }
+        setCategoryNews(result.articles);
       } catch (error) {
         setIsError(true);
       }

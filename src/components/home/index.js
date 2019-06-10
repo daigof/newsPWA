@@ -20,8 +20,17 @@ const Home = () => {
       setIsLoading(true);
 
       try {
-        const result = await axios(ENDPOINT);
-        setHeadlines(result.data.articles);
+        const cache = await caches.open('news-headlines');
+        const cachedResponse = await cache.match(ENDPOINT);
+        let result;
+        if (cachedResponse) {
+          result = await cachedResponse.json();
+        } else {
+          const axiosResult = await axios(ENDPOINT);
+          result = axiosResult.data;
+          cache.put(ENDPOINT, new Response(axiosResult.request.response));
+        }
+        setHeadlines(result.articles);
       } catch (error) {
         setIsError(true);
       }
